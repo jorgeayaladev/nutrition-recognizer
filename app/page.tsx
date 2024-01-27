@@ -19,6 +19,7 @@ export default function Home() {
   // Delete any
   const webcamRef = useRef<any>(null)
   const [url, setUrl] = useState<string | null>(null)
+  const [model, setModel] = useState<any>(null)
 
   const videoConstraints = {
     width: 320,
@@ -43,34 +44,37 @@ export default function Home() {
   }
 
   const prediction = async () => {
-    const URL = "https://teachablemachine.withgoogle.com/models/1kn3yGMuS"
-    const model = await tmImage.load(
-      `${URL}/model.json`,
-      `${URL}/metadata.json`
-    )
-
-    console.log("ClassLabels:", model.getClassLabels())
-    console.log("TotalClasses:", model.getTotalClasses())
-
     if (url) {
       const imageElement = document.createElement("img") // Use DOM HTMLImageElement
       imageElement.src = url
 
       const allPredictions = await model.predict(imageElement, true)
-      console.log(allPredictions)
+      //console.log(allPredictions)
 
       const bestProbability = allPredictions.sort(
-        (a, b) => b.probability - a.probability
+        (a: any, b: any) => b.probability - a.probability
       )[0]
 
       window.location.assign(
-        `https://es.wikipedia.org/wiki/${bestProbability.className}`
+        "https://es.wikipedia.org/wiki/" + bestProbability.className
       )
     }
   }
 
   useEffect(() => {
-    prediction()
+    const loadModel = async () => {
+      const URL = "https://teachablemachine.withgoogle.com/models/1kn3yGMuS"
+      const model = await tmImage.load(
+        URL + "/model.json",
+        URL + "/metadata.json"
+      )
+
+      //console.log("ClassLabels:", model.getClassLabels())
+      //console.log("TotalClasses:", model.getTotalClasses())
+      setModel(model)
+    }
+
+    loadModel()
   }, [])
 
   return (
