@@ -103,7 +103,7 @@ export default function Home() {
           <p className="mt-5 text-pretty">
             Usa la cámara para poder capturar una imagen la cual será usada para
             reconocer la fruta a la cual deseas saber sus características, luego
-            pulsa <b>"Iniciar detección"</b> cuando estés de acuerdo con la
+            pulsa <b className="text-blue-500">Iniciar detección</b> cuando estés de acuerdo con la
             imagen.
             <br />
             <br />
